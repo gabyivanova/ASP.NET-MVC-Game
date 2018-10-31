@@ -1,0 +1,49 @@
+@{
+    ViewBag.Title = "Game Play";
+}
+
+<h2>Web Game: Shoot the Fruits!</h2>
+
+@if (!ViewBag.gameOver)
+{
+    <form action="/Home/FireTop">
+        @*Creates scrollbar: Top*@
+        Top: <input type="range" name="position" min="0" max="100" />
+        <input type="submit" value="Fire Top" />
+    </form>
+    <form action="/Home/FireBottom">
+        @*Creates scrollbar: Bottom*@
+        Bottom: <input type="range" name="position" min="0" max="100" />
+        <input type="submit" value="Fire Bottom" />
+    </form>
+}
+
+<form action="/Home/Reset">
+    @*Button New game*@
+    <input type="submit" value="New Game" />
+</form>
+
+@if (ViewBag.gameOver) //If the game has ended, shows "Game over" with a picture of explosion
+{
+    <h2>Game Over!</h2>
+    <img src="~/images/explosion.png" />
+}
+else
+{
+    <h2>Battle Field</h2> //Game field
+    for (var row = 0; row < ViewBag.rowsCount; row++) /*Loop for rows*/
+    {
+        for (int col = 0; col < ViewBag.colsCount; col++) /*Loop for columns*/
+        {
+            <img src='/images/@(ViewBag.fruits[row, col]).png' />
+        }
+        <br />
+        //Each row consists of nine images, each of which containing apple, banana or 
+        //other fruit or empty (dynamite).
+        //Pictures are placed with HTML tag for inserting an image: <img src=”/images/apple.png”/>.
+        //Nine pictures are arranged one after the other on each row, followed by a new line <br />.
+        //This is repeated three timed for the three rows.
+    }
+    <h2>Score: <b>@ViewBag.score</b></h2>/*Shows player's points*/
+}
+@*Symbols @ serve to switch between C# and HTML*@ 
